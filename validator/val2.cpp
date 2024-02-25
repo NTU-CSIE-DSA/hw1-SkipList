@@ -7,11 +7,11 @@ int main() {
     registerValidation();
     int M = inf.readInt(1, 1000000);
     inf.readEoln();
-    unordered_set<int> numbers;
+    unordered_set<long long> numbers;
     for(int i = 1; i <= M; i++){
         int op = inf.readInt(2, 3);
         inf.readSpace();
-        int k = inf.readInt(0, 1000000000);
+        long long k = inf.readLong((long long)0, 1000000000000000000);
         if(op == 3){
             ensure(!numbers.count(k));
             numbers.insert(k);

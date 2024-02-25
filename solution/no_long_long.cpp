@@ -3,7 +3,7 @@
 #include <limits.h>
 
 typedef struct SkipNode {
-    long long key;
+    int key;
     struct SkipNode **next;
 } SkipNode;
 
@@ -13,7 +13,7 @@ typedef struct SkipList {
     SkipNode *header;
 } SkipList;
 
-SkipNode* createNode(long long key, int level) {
+SkipNode* createNode(int key, int level) {
     SkipNode *new_node = (SkipNode*)malloc(sizeof(SkipNode));
     new_node->key = key;
     new_node->next = (SkipNode**)malloc(sizeof(SkipNode*) * (level + 1));
@@ -31,7 +31,7 @@ SkipList* createSkipList(int max_level) {
     return list;
 }
 
-int GetLevel(long long key) {
+int GetLevel(int key) {
     int level = 0;
     while (key % 2 == 1) {
         level++;
@@ -40,7 +40,7 @@ int GetLevel(long long key) {
     return level;
 }
 
-void insertNode(SkipList *list, long long key) {
+void insertNode(SkipList *list, int key) {
     SkipNode *update[list->max_level + 1];
     SkipNode *current = list->header;
     for (int i = list->level; i >= 0; i--) {
@@ -91,11 +91,11 @@ void deleteNode(SkipList *list, int key) {
     }
 }
 
-void slow_get(SkipList *list, long long k){ // slow get the first element >= k
+void slow_get(SkipList *list, int k){ // slow get the first element >= k
     SkipNode *current = list->header->next[0];
     int found = 0;
     while (current != NULL && current->key >= k) {
-        printf("%lld ", current->key);
+        printf("%d ", current->key);
         found = 1;
         current = current->next[0];
     }
@@ -103,19 +103,32 @@ void slow_get(SkipList *list, long long k){ // slow get the first element >= k
     printf("\n");
 }
 
-void fast_get(SkipList *list, long long k){ // fast get the first element >= k
+void fast_get(SkipList *list, int k){ // fast get the first element >= k
     SkipNode *current = list->header;
     int found = 0;
     for (int i = list->level; i >= 0; i--){
-        if(current->key != INT_MAX) printf("%lld ", current->key);
+        if(current->key != INT_MAX) printf("%d ", current->key);
         while (current->next[i] != NULL && k <= current->next[i]->key) {
             current = current->next[i];
             found = 1;
-            printf("%lld ", current->key);
+            printf("%d ", current->key);
         }
     }
     if(found == 0) printf("-1");
     printf("\n");
+}
+
+void printSkipList(SkipList *list){
+    printf("Skip List:\n");
+    for (int i = 0; i <= list->level; i++) {
+        printf("Level %d: ", i);
+        SkipNode *current = list->header->next[i];
+        while (current != NULL) {
+            printf("%d ", current->key);
+            current = current->next[i];
+        }
+        printf("\n");
+    }
 }
 
 void freeSkipList(SkipList *list) {
@@ -132,12 +145,11 @@ void freeSkipList(SkipList *list) {
 }
 
 int main() {
-    SkipList *list = createSkipList(64); // 最大層數為64
-    int M, t;
-    long long k;
+    SkipList *list = createSkipList(32); // 最大層數為32
+    int M, t, k;
     scanf("%d", &M);
     for(int i = 0; i < M; i++){
-        scanf("%d%lld", &t, &k);
+        scanf("%d%d", &t, &k);
         if(t == 1) slow_get(list, k);
         else if(t == 2) fast_get(list, k);
         else if(t == 3) insertNode(list, k);
