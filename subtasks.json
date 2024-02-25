@@ -1,0 +1,27 @@
+{
+	"global_validators": ["val.cpp"],
+	"subtasks": {
+		"samples": {
+			"index": 0,
+			"score": 0,
+			"text": "sample tasks"
+		},
+		"s1": {
+			"index": 1,
+			"score": 20,
+			"text": "slow get and insertion only",
+            "validators": ["val1.cpp"]
+		},
+		"s2": {
+			"index": 2,
+			"score": 40,
+			"text": "fast get and insertion only",
+            "validators": ["val2.cpp"]
+		},
+		"s3": {
+			"index": 3,
+			"score": 40,
+			"text": "fast get, insertion, and removal"
+		}
+	}
+}
