@@ -1,5 +1,8 @@
 {
   "sol.cpp": {
     "verdict": "model_solution"
+  },
+  "no_long_long.cpp":{
+      "verdict": "incorrect"
   }
 }

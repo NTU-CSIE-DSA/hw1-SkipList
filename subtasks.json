@@ -21,7 +21,8 @@
 		"s3": {
 			"index": 3,
 			"score": 40,
-			"text": "fast get, insertion, and removal"
+			"text": "fast get, insertion, and removal",
+            "validators": ["val3.cpp"]
 		}
 	}
 }
