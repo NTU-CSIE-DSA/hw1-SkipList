@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {  // gen M k op1 op2 op3 op4 (%)
             else{
                 tmp = tmp % 2;
                 if(tmp) tmp = *numbers.begin();
-                else tmp = *numbers.end();
+                else tmp = *numbers.rbegin();
                 numbers.erase(tmp);
             }
         } 
