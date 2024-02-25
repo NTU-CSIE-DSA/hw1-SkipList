@@ -28,15 +28,14 @@ int main(int argc, char* argv[]) {  // gen_slow M k op1 op2 op3 op4 (%)
         if(op <= op1 || i > M - 100) op = 1; // assert the last 100 op are slow get
         else if(op > op1 && op <= op1 + op3) op = 3;
         else op = 4;
-
         long long tmp = rnd.next((long long)0, k);
         while(op == 3 && numbers.count(tmp)) tmp = rnd.next((long long)0, k);
         if(op == 3) numbers.insert(tmp);
-        if(op == 4){
-            if(numbers.lower_bound(tmp) != numbers.end()){
+        else{
+            if(rnd.next(0, 1) && numbers.lower_bound(tmp) != numbers.end()){
                 tmp = *numbers.lower_bound(tmp);
-                numbers.erase(tmp);
             }
+            if(op == 4 && numbers.count(tmp)) numbers.erase(tmp);
         }
         cout << op << " " << tmp << "\n";
     }

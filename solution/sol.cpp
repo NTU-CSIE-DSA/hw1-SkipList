@@ -24,7 +24,7 @@ SkipList* createSkipList(int max_level) {
     SkipList *list = (SkipList*)malloc(sizeof(SkipList));
     list->max_level = max_level;
     list->level = 0;
-    list->header = createNode(INT_MAX, max_level);
+    list->header = createNode(LLONG_MAX, max_level);
     for (int i = 0; i <= max_level; i++) {
         list->header->next[i] = NULL;
     }
@@ -66,7 +66,7 @@ void insertNode(SkipList *list, long long key) {
     }
 }
 
-void deleteNode(SkipList *list, int key) {
+void deleteNode(SkipList *list, long long key) {
     SkipNode *update[list->max_level + 1];
     SkipNode *current = list->header;
     for (int i = list->level; i >= 0; i--) {
@@ -107,7 +107,7 @@ void fast_get(SkipList *list, long long k){ // fast get the first element >= k
     SkipNode *current = list->header;
     int found = 0;
     for (int i = list->level; i >= 0; i--){
-        if(current->key != INT_MAX) printf("%lld ", current->key);
+        if(current->key != LLONG_MAX) printf("%lld ", current->key);
         while (current->next[i] != NULL && k <= current->next[i]->key) {
             current = current->next[i];
             found = 1;

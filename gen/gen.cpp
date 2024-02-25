@@ -1,7 +1,7 @@
 #include "testlib.h"
 #include <climits>
 #include <cassert>
-#include <unordered_set>
+#include <set>
 using namespace std;
 
 int main(int argc, char* argv[]) {  // gen M k op1 op2 op3 op4 (%)
@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {  // gen M k op1 op2 op3 op4 (%)
     assert(op1 == 0 && op2 + op3 + op4 == 100); // no slow get => 0%
     cout << M << '\n';
 
-    unordered_set<long long> numbers;
+    set<long long> numbers;
     for(int i = 1; i <= M; i++){
         if(i == M){ // assert the last op is fast get 0
             cout << "2 0\n";
@@ -31,7 +31,12 @@ int main(int argc, char* argv[]) {  // gen M k op1 op2 op3 op4 (%)
         long long tmp = rnd.next((long long)0, k);
         while(op == 3 && numbers.count(tmp)) tmp = rnd.next((long long)0, k);
         if(op == 3) numbers.insert(tmp);
-        if(op == 4) numbers.erase(tmp); 
+        else{
+            if(rnd.next(0, 1) && numbers.upper_bound(tmp) != numbers.end()){
+                tmp = *numbers.upper_bound(tmp);
+            }
+            if(op == 4) numbers.erase(tmp);
+        }
         cout << op << " " << tmp << "\n";
     }
     return 0;
