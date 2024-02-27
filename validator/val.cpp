@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     registerValidation();
-    int M = inf.readInt(1, 1000000);
+    int M = inf.readInt(1, 100000);
     inf.readEoln();
     unordered_set<long long> numbers;
     for(int i = 1; i <= M; i++){
