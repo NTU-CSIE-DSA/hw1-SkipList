@@ -158,7 +158,7 @@ int main() {
 ## common mistakes
 <!-- 寫幾個常見錯誤 -->
 
-1. Since the range of $k$ is $[0, 10^{18}]$, it needs to be declared using `long long`. Additionally, if the value of `head` is $\infin$, it should also be changed to `LLONG_MAX` instead of the original `INT_MAX`.
+1. Since the range of $k$ is $[0, 10^{18}]$, it needs to be declared using `long long`. Additionally, if the value of `head` is $\infty$, it should also be changed to `LLONG_MAX` instead of the original `INT_MAX`.
 2. When implementing `INSERT`, you should start searching $k$ from the top layer of the skip list, instead of the layer that $k$ appear first. 
 3. If you opt to set the head value of each layer as the maximum number within that layer, you'll need to update the head when the maximum number of that layer is deleted.
 4. If you are deleting the node recursively from top to bottom, you need to pay attention to the termination condition. 
