@@ -9,15 +9,15 @@ Keywords: `skip list`.
 #include <stdlib.h>
 #include <limits.h>
 
-typedef struct SkipNode {
+typedef struct SkipNode { // each node contain an array of pointer and key value
     long long key;
-    struct SkipNode **next; // array of next node
+    struct SkipNode **next; // the next node in each layer
 } SkipNode;
 
 typedef struct SkipList {
     int max_level;
     int level;
-    SkipNode *header;
+    SkipNode *header; 
 } SkipList;
 
 SkipNode* createNode(long long key, int level) { // create a SkipNode with key and level
@@ -31,10 +31,8 @@ SkipList* createSkipList(int max_level) { // create an empty SkipList with its m
     SkipList *list = (SkipList*)malloc(sizeof(SkipList));
     list->max_level = max_level;
     list->level = 0;
-    list->header = createNode(LLONG_MAX, max_level);
-    for (int i = 0; i <= max_level; i++) {
-        list->header->next[i] = NULL;
-    }
+    list->header = createNode(LLONG_MAX, max_level); // the header is the node with key value = LLONG_MAX, which means the header won't disappear
+    for (int i = 0; i <= max_level; i++) list->header->next[i] = NULL; 
     return list;
 }
 
@@ -147,7 +145,7 @@ int main() {
 1. Since the range of $k$ is $[0, 10^{18}]$, it needs to be declared using `long long`. Additionally, if the value of `head` is $\infty$, it should also be changed to `LLONG_MAX` instead of the original `INT_MAX`.
 2. When implementing `INSERT`, you should start searching $k$ from the top layer of the skip list, instead of the layer that $k$ appear first. 
 3. If you opt to set the head value of each layer as the maximum number within that layer, you'll need to update the head when the maximum number of that layer is deleted.
-4. If you are deleting the node recursively from top to bottom, you need to pay attention to the termination condition. 
+4. If you delete the node recursively from top to bottom, you should pay attention to the termination condition. 
 
 ## coding tips
 <!-- 一些簡化程式複雜程度的技巧 -->
