@@ -11,7 +11,7 @@ Keywords: `skip list`.
 
 typedef struct SkipNode {
     long long key;
-    struct SkipNode **next;
+    struct SkipNode **next; // array of next node
 } SkipNode;
 
 typedef struct SkipList {
@@ -20,14 +20,14 @@ typedef struct SkipList {
     SkipNode *header;
 } SkipList;
 
-SkipNode* createNode(long long key, int level) {
+SkipNode* createNode(long long key, int level) { // create a SkipNode with key and level
     SkipNode *new_node = (SkipNode*)malloc(sizeof(SkipNode));
     new_node->key = key;
     new_node->next = (SkipNode**)malloc(sizeof(SkipNode*) * (level + 1));
     return new_node;
 }
 
-SkipList* createSkipList(int max_level) {
+SkipList* createSkipList(int max_level) { // create an empty SkipList with its max level
     SkipList *list = (SkipList*)malloc(sizeof(SkipList));
     list->max_level = max_level;
     list->level = 0;
@@ -47,7 +47,7 @@ int GetLevel(long long key) { // calculate the layer of the node
     return level;
 }
 
-void insertNode(SkipList *list, long long key) {
+void insertNode(SkipList *list, long long key) { // insert a node with key into skip list
     SkipNode *update[list->max_level + 1]; // store the previous node in each layer
     SkipNode *current = list->header;
     for (int i = list->level; i >= 0; i--) {
@@ -73,7 +73,7 @@ void insertNode(SkipList *list, long long key) {
     }
 }
 
-void deleteNode(SkipList *list, long long key) {
+void deleteNode(SkipList *list, long long key) { // delete a node with key from skip list
     SkipNode *update[list->max_level + 1];
     SkipNode *current = list->header;
     for (int i = list->level; i >= 0; i--) {
@@ -125,21 +125,8 @@ void fast_get(SkipList *list, long long k){ // fast get the first element >= k
     printf("\n");
 }
 
-void freeSkipList(SkipList *list) { // not necessary
-    SkipNode *current = list->header->next[0];
-    while (current != NULL) {
-        SkipNode *temp = current;
-        current = current->next[0];
-        free(temp->next);
-        free(temp);
-    }
-    free(list->header->next);
-    free(list->header);
-    free(list);
-}
-
 int main() {
-    SkipList *list = createSkipList(64); // the max layer is < 64
+    SkipList *list = createSkipList(64); // create an empty skip list with max layer = 64
     int M, t;
     long long k;
     scanf("%d", &M);
@@ -150,7 +137,6 @@ int main() {
         else if(t == 3) insertNode(list, k);
         else deleteNode(list, k);
     }
-    freeSkipList(list);
     return 0;
 }
 ```
